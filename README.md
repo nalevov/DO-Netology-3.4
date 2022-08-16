@@ -12,11 +12,13 @@
 	Распаковываем в текущую папку 
 	создаем папку sudo mkdir /opt/node_exporter с содержимым архива sudo cp -r ~/node_exporter-1.3.1.linux-amd64 /opt/
   
-2.Создаем файл конфигурации сервера 
+2. Создаем файл конфигурации сервера 
 
-	touch /etc/systemd/system/node_exporter.service 
-	sudo nano /etc/systemd/system/node_exporter.service
-	
+touch /etc/systemd/system/node_exporter.service 
+
+sudo nano /etc/systemd/system/node_exporter.service
+
+```
 [Unit]
 Description=Node Exporter
 
@@ -27,11 +29,16 @@ EnvironmentFile=/etc/default/node_exporter
 [Install]
 WantedBy=multi-user.target
 
+```
 
-	sudo touch /etc/default/node_exporter
-	sudo nano /etc/default/node_exporter
+sudo touch /etc/default/node_exporter
 
+sudo nano /etc/default/node_exporter
+
+```
 MY_OPTS="--log.level=debug"
+```
+
 
 3. Добавляем сервис в автозагрузку systemctl enable node_exporter
 4. Проверяем корректность старта и завершения при помощи команд systemctl start node_exporter, systemctl stop node_exporter, systemctl status node_exporter
@@ -77,6 +84,27 @@ node_network_dormant{device="lo"} 0
 
 ![img.png](https://github.com/nalevov/DO-Netology-3.4/blob/main/Node_exporter%202.png)
 
+## 3. Установите в свою виртуальную машину [Netdata](https://github.com/netdata/netdata). Воспользуйтесь [готовыми пакетами](https://packagecloud.io/netdata/netdata/install) для установки (`sudo apt install -y netdata`). После успешной установки:
+    * в конфигурационном файле `/etc/netdata/netdata.conf` в секции [web] замените значение с localhost на `bind to = 0.0.0.0`,
+    * добавьте в Vagrantfile проброс порта Netdata на свой локальный компьютер и сделайте `vagrant reload`:
 
+    ```bash
+    config.vm.network "forwarded_port", guest: 19999, host: 19999
+    ```
+
+    После успешной перезагрузки в браузере *на своем ПК* (не в виртуальной машине) вы должны суметь зайти на `localhost:19999`. Ознакомьтесь с метриками, которые по умолчанию собираются Netdata и с комментариями, которые даны к этим метрикам.
+    
+### Решение:   
+
+![img.png](https://github.com/nalevov/DO-Netology-3.4/blob/main/Netdata.png)
+
+## 4. Можно ли по выводу `dmesg` понять, осознает ли ОС, что загружена не на настоящем оборудовании, а на системе виртуализации?
+
+### Решение:   
+
+Да, по вывроду команды dmesg |grep virt видим, что ОС запущена в виртуальной среде
+[    0.001392] CPU MTRRs all blank - virtualized system.
+[    0.081340] Booting paravirtualized kernel on KVM
+[    3.683590] systemd[1]: Detected virtualization oracle.
 
   
