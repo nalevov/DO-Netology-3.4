@@ -38,6 +38,7 @@ MY_OPTS="--log.level=debug"
 4. Проверяем корректность старта и завершения при помощи команд systemctl start node_exporter, systemctl stop node_exporter, systemctl status node_exporter
 5. Перезагружаем виртуальную машину и проверяем автозапуск службы
 
+![img.png] (https://github.com/nalevov/DO-Netology-3.4/blob/main/Node_exporter%201.png)
 
 
 
