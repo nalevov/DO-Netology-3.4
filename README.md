@@ -12,11 +12,13 @@
 	Распаковываем в текущую папку 
 	создаем папку sudo mkdir /opt/node_exporter с содержимым архива sudo cp -r ~/node_exporter-1.3.1.linux-amd64 /opt/
   
-2. Создаем файл конфигурации сервера 
+2. Создаем файл конфигурации сервера, при помощи команд 
 
-touch /etc/systemd/system/node_exporter.service 
+`touch /etc/systemd/system/node_exporter.service`
 
-sudo nano /etc/systemd/system/node_exporter.service
+`sudo nano /etc/systemd/system/node_exporter.service`
+
+Прописываем
 
 ```
 [Unit]
@@ -31,9 +33,11 @@ WantedBy=multi-user.target
 
 ```
 
-sudo touch /etc/default/node_exporter
+`sudo touch /etc/default/node_exporter`
 
-sudo nano /etc/default/node_exporter
+`sudo nano /etc/default/node_exporter`
+
+Прописываем:
 
 ```
 MY_OPTS="--log.level=debug"
