@@ -9,7 +9,9 @@
 ### Решение:
 
 1. Подготавливаем node_exporter
-	Скачиваем архив wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
+	Скачиваем архив 
+	wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
+	
 	Распаковываем в текущую папку 
 	создаем папку sudo mkdir /opt/node_exporter с содержимым архива sudo cp -r ~/node_exporter-1.3.1.linux-amd64 /opt/
   
