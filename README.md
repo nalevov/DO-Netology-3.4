@@ -135,35 +135,41 @@ node_network_dormant{device="lo"} 0
 
 ### Решение:
 
+`unshare --fork --pid --mount-proc sleep 1h`
+
 `sleep 1h`
 
 ```
 ^Z
-[1]+  Stopped                 sleep 1h
+[1]+  Stopped                 unshare --fork --pid --mount-proc sleep 1h
 ```
 
 `bg 1`
 
 ```
-1]+ sleep 1h &
+[1]+ unshare --fork --pid --mount-proc sleep 1h &
 ```
 
 `ps -aux | grep sleep`
 
 ```
-vagrant     1661  0.0  0.0   5476   592 pts/0    S    11:40   0:00 sleep 1h
-vagrant     1663  0.0  0.0   6432   664 pts/0    S+   11:41   0:00 grep --color=auto sleep
+vagrant     1054  0.0  0.0   5476   592 pts/0    S    16:58   0:00 sleep 1h
+root        1135  0.0  0.0   5480   528 pts/0    S    17:07   0:00 unshare --fork --pid --mount-proc sleep 1h
+root        1136  0.0  0.0   5476   592 pts/0    S    17:07   0:00 sleep 1h
+root        1139  0.0  0.0   6432   736 pts/0    S+   17:07   0:00 grep --color=auto sleep
 ```
 
-`sudo nsenter --target 1661 --pid --mount`
+`nsenter --target 1136 --pid --mount`
+
+`ps`
 
 ```
-PID TTY          TIME CMD
-1669 pts/0    00:00:00 sudo
-1670 pts/0    00:00:00 nsenter
-1671 pts/0    00:00:00 bash
-1690 pts/0    00:00:00 ps
+1 pts/0    00:00:00 sleep
+2 pts/0    00:00:00 bash
+13 pts/0    00:00:00 ps
 ```
+
+![image](https://user-images.githubusercontent.com/95496224/187500531-85cd29d9-b945-4c5b-9f9c-83048ecc0ed6.png)
 
 
 ## 7. Найдите информацию о том, что такое `:(){ :|:& };:`. Запустите эту команду в своей виртуальной машине Vagrant с Ubuntu 20.04 (**это важно, поведение в других ОС не проверялось**). Некоторое время все будет "плохо", после чего (минуты) – ОС должна стабилизироваться. Вызов `dmesg` расскажет, какой механизм помог автоматической стабилизации. Как настроен этот механизм по-умолчанию, и как изменить число процессов, которое можно создать в сессии?
